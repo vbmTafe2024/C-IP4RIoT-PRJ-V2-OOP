@@ -1,4 +1,4 @@
-from sensor import Sensor
+from sensor import Sensor, TemperatureSensor
 from display import Display
 
 
@@ -22,3 +22,42 @@ class CarPark:
             self.sensors.append(component)
         elif isinstance(component, Display):
             self.displays.append(component)
+
+    @property
+    def available_bays(self):
+        # Return 0 if the number of cars exceeds capacity
+        return max(self.capacity - len(self.plates), 0)
+
+    def add_car(self, plate):
+        self.plates.append(plate)  # Always add the car, no full capacity
+        self.update_displays()
+
+    def remove_car(self, plate):
+        if plate in self.plates:
+            self.plates.remove(plate)
+            self.update_displays()
+        else:
+            print("Car plate not found in the car park.")
+
+    def update_displays(self):
+        # Build the data dictionary to send to displays
+        data = {
+            "available_bays": self.available_bays,
+            "temperature": self.get_temperature(),
+            "time": self.get_time()
+        }
+
+        # Send the data to all displays
+        for display in self.displays:
+            display.update(data)
+
+    def get_temperature(self):
+        # getting the temperature from a sensor
+        for sensor in self.sensors:
+            if isinstance(sensor, TemperatureSensor) and sensor.is_active:
+                return sensor.get_temperature()
+
+    def get_time(self):
+        # getting the current time
+        import time
+        return time.strftime("%H:%M:%S")
