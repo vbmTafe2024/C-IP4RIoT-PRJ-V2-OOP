@@ -41,3 +41,9 @@ What is the difference between an attribute and a property?
 Why do you think we used a dictionary to hold the data we passed the display? List at least one advantage and one disadvantage of this approach.
 > We used a dictionary because it's flexible and easy to add new data without changing the method, but the downside is that it can lead to mistakes
 > if the keys or values aren't handled carefully, and sometimes a more structured approach might be better.
+
+Test the car park register method
+The car park register method should accept a Sensor or Display object. It should raise a TypeError if the object is neither a Sensor nor a Display. 
+Before proceeding, think about where you would test this behaviour. Should you test it in the CarPark unit tests or the Sensor unit tests? Why?
+> The CarPark class includes the register method. Since this behaviour is strongly linked to how the CarPark handles sensors and displays, 
+> it is appropriate to test this functionality in the CarPark unit tests.
