@@ -33,11 +33,11 @@ class CarPark:
         self.update_displays()
 
     def remove_car(self, plate):
-        if plate in self.plates:
-            self.plates.remove(plate)
-            self.update_displays()
-        else:
-            print("Car plate not found in the car park.")
+        if plate not in self.plates:
+            raise ValueError("Car plate not found in the car park.")
+        self.plates.remove(plate)
+        # No need to update available_bays directly because it's computed dynamically - fixing test failure
+        self.update_displays()
 
     def update_displays(self):
         # Build the data dictionary to send to displays
