@@ -9,6 +9,10 @@ class Display:
         return f"Display {self.id}: {self.message if self.message else 'No message'}"
 
     def update(self, data):
+        # Update the display's message if the data contains a 'message' key - fixing the test failure
+        if "message" in data:
+            self.message = data["message"]
 
+        # Print all key-value pairs from the data for logging
         for key, value in data.items():
             print(f"{key}: {value}")
